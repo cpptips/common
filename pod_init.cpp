@@ -1,14 +1,17 @@
 #include <stdint.h>
-#include <strings.h>
+#include <string.h>
 
 #include <iostream>
 using namespace std;
 
 // POD（Plain Old Data）结构体和C语言中的结构体兼容，能够正常使用memcpy memset
 // bzero等函数，如下所示Options就是一个POD
-// 对POD类/结构体，我们可以在构造函数中使用bzero初始化内存
+// 对POD类/结构体，我们可以在构造函数中使用bzero或这bzero初始化内存
 struct Options {
-    Options() { bzero(this, sizeof(*this)); }
+    Options() {
+        // bzero(this, sizeof(*this));//not windows
+        memset(this, 0, sizeof(*this));
+    }
     uint16_t tcpport;
     uint16_t udpport;
     uint16_t gperfport;
